@@ -9,10 +9,37 @@ const petFinder = pf({
 });
 
 class App extends React.Component {
-  componentDidMount() {
-    const promise = petFinder.breed.list({ animal: "dog" }); //returns a promise
+  constructor(props) {
+    super(props);
 
-    promise.then(console.log, console.error);
+    this.state = {
+      pets: []
+    };
+  }
+
+  componentDidMount() {
+    petFinder.pet
+      .find({ output: "full", location: "Seattle, WA" })
+      .then(data => {
+        let pets;
+
+        if (data.petFinder.pets && data.petFinder.pets.pet) {
+          // if finds one pet, returns an object
+          // if finds 1+ pets, returns an array
+          if (Array.isArray(data.petFinder.pets.pet)) {
+            pets = data.petFinder.pets.pet;
+          } else {
+            pets = [data.petFinder.pets.pet];
+          }
+        } else {
+          pets = [];
+        }
+
+        // update state with updated pets
+        this.setState({
+          pets // shallow merge - won't overwrite existing flat data
+        });
+      });
   }
 
   render() {
