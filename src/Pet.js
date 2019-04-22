@@ -11,10 +11,12 @@ class Pet extends React.Component {
     // get these params from the parent
     const { name, breed, media, location, id } = this.props;
 
+    // let photos = media.filter(obj => obj.medium);
+
     return (
       <Link to="{`/details/${id}`}" className="pet">
         <div className="image-container">
-          <img src={media.large} alt={name} />
+          <img src={media[0] ? media[0].small : ""} alt={name} />
         </div>
         <div className="info">
           <h2>{name}</h2>

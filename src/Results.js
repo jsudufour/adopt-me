@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import Pet from "./Pet";
 
 const petFinder = {
@@ -23,6 +22,7 @@ class Results extends React.Component {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Origin: "",
         Host: "api.petfinder.com"
       },
       body: JSON.stringify({
@@ -45,7 +45,6 @@ class Results extends React.Component {
             return response.json();
           })
           .then(data => {
-            console.log(data.animals.photos.small);
             if (data.animals) {
               // if finds one pet, returns an object
               // if finds 1+ pets, returns an array
@@ -76,7 +75,9 @@ class Results extends React.Component {
               name={pet.name}
               breed={pet.breeds.primary}
               media={pet.photos}
-              location={`${pet.contact.city}, ${pet.contact.state}`}
+              location={`${pet.contact.address.city}, ${
+                pet.contact.address.state
+              }`}
               id={pet.id}
             />
           );
