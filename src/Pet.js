@@ -14,7 +14,7 @@ class Pet extends React.Component {
     // let photos = media.filter(obj => obj.medium);
 
     return (
-      <Link to="{`/details/${id}`}" className="pet">
+      <Link to={`/details/${id}`} className="pet">
         <div className="image-container">
           <img src={media[0] ? media[0].small : ""} alt={name} />
         </div>
