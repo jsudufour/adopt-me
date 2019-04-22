@@ -3,10 +3,10 @@ import { render } from "react-dom";
 import pf from "petfinder-client";
 import Pet from "./Pet";
 
-const petFinder = pf({
+const petFinder = {
   key: process.env.API_KEY,
   secret: process.env.API_SECRET
-});
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -18,27 +18,70 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    petFinder.pet
-      .find({ output: "full", location: "Seattle, WA" })
+    // package used in course using deprecated petfinder API
+    // petFinder.pet.find({ output: "full", location: "San Francisco, CA" }).then(data => {
+    //   let pets;
+
+    //   if (data.petFinder.pets && data.petFinder.pets.pet) {
+    //     // if finds one pet, returns an object
+    //     // if finds 1+ pets, returns an array
+    //     if (Array.isArray(data.petFinder.pets.pet)) {
+    //       pets = data.petFinder.pets.pet;
+    //     } else {
+    //       pets = [data.petFinder.pets.pet];
+    //     }
+    //   } else {
+    //     pets = [];
+    //   }
+
+    // regular API call using updated petfinder API
+
+    let pets;
+    fetch(`https://api.petfinder.com/v2/oauth2/token`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Origin: "",
+        Host: "api.petfinder.com"
+      },
+      body: JSON.stringify({
+        client_id: "wwBdaD0eNIoLJBj2Xy1S4DRkB2kDrmrL7jcE96GTvuoIeKlFSM",
+        client_secret: "cdRnD4bu0JBxMMWBkOVXTCVGWtiUdZNODpVuWjiA",
+        grant_type: "client_credentials"
+      })
+    })
+      .then(response => {
+        return response.json();
+      })
       .then(data => {
-        let pets;
-
-        if (data.petFinder.pets && data.petFinder.pets.pet) {
-          // if finds one pet, returns an object
-          // if finds 1+ pets, returns an array
-          if (Array.isArray(data.petFinder.pets.pet)) {
-            pets = data.petFinder.pets.pet;
-          } else {
-            pets = [data.petFinder.pets.pet];
+        fetch(`https://api.petfinder.com/v2/animals?type=dog&location=94115`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${data.access_token}`
           }
-        } else {
-          pets = [];
-        }
+        })
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            if (data.animals) {
+              // if finds one pet, returns an object
+              // if finds 1+ pets, returns an array
+              if (Array.isArray(data.animals)) {
+                pets = data.animals;
+              } else {
+                pets = [data.animals];
+              }
+            } else {
+              pets = [];
+            }
 
-        // update state with updated pets
-        this.setState({
-          pets // shallow merge - won't overwrite existing flat data
-        });
+            // update state with updated pets
+            this.setState({
+              pets // shallow merge - won't overwrite existing flat data
+            });
+          });
       });
   }
 
@@ -46,9 +89,9 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <h1>Adopt Me!</h1>
-        <Pet name="Luna" animal="dog" breed="chihuahua" />
-        <Pet name="Knox" animal="dog" breed="french bulldog" />
-        <Pet name="Flux" animal="dog" breed="italian greyhound" />
+        <pre>
+          <code>{JSON.stringify(this.state, null, 4)}</code>
+        </pre>
       </React.Fragment>
     );
   }
