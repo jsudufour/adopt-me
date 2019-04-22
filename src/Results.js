@@ -23,7 +23,6 @@ class Results extends React.Component {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Origin: "",
         Host: "api.petfinder.com"
       },
       body: JSON.stringify({
@@ -78,6 +77,7 @@ class Results extends React.Component {
               breed={pet.breeds.primary}
               media={pet.photos}
               location={`${pet.contact.city}, ${pet.contact.state}`}
+              id={pet.id}
             />
           );
         })}

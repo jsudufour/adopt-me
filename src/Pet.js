@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@reach/router";
 
 class Pet extends React.Component {
   // every react class components have to have a render method
@@ -8,10 +9,10 @@ class Pet extends React.Component {
     // has to be fast - render gets called OFTEN
 
     // get these params from the parent
-    const { name, breed, media, location } = this.props;
+    const { name, breed, media, location, id } = this.props;
 
     return (
-      <div className="pet">
+      <Link to="{`/details/${id}`}" className="pet">
         <div className="image-container">
           <img src={media.large} alt={name} />
         </div>
@@ -21,7 +22,7 @@ class Pet extends React.Component {
             {breed} - {location}
           </h4>
         </div>
-      </div>
+      </Link>
     );
   }
 }
