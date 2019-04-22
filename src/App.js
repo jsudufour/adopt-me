@@ -65,6 +65,7 @@ class App extends React.Component {
             return response.json();
           })
           .then(data => {
+            console.log(data.animals);
             if (data.animals) {
               // if finds one pet, returns an object
               // if finds 1+ pets, returns an array
@@ -88,10 +89,14 @@ class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Adopt Me!</h1>
-        <pre>
-          <code>{JSON.stringify(this.state, null, 4)}</code>
-        </pre>
+        <h1>Adopt A Doggo</h1>
+        <div>
+          {this.state.pets.map(pet => {
+            return (
+              <Pet key={pet.id} name={pet.name} breed={pet.breeds.primary} />
+            );
+          })}
+        </div>
       </React.Fragment>
     );
   }
