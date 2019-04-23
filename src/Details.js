@@ -20,8 +20,8 @@ class Details extends React.Component {
         Host: "api.petfinder.com"
       },
       body: JSON.stringify({
-        client_id: "wwBdaD0eNIoLJBj2Xy1S4DRkB2kDrmrL7jcE96GTvuoIeKlFSM",
-        client_secret: "cdRnD4bu0JBxMMWBkOVXTCVGWtiUdZNODpVuWjiA",
+        client_id: "",
+        client_secret: "",
         grant_type: "client_credentials"
       })
     })
