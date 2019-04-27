@@ -11,7 +11,8 @@ class Results extends React.Component {
     super(props);
 
     this.state = {
-      pets: []
+      pets: [],
+      loading: true
     };
   }
 
@@ -59,13 +60,18 @@ class Results extends React.Component {
 
             // update state with updated pets
             this.setState({
-              pets // shallow merge - won't overwrite existing flat data
+              pets,
+              loading: false // shallow merge - won't overwrite existing flat data
             });
           });
       });
   }
 
   render() {
+    if (this.state.loading) {
+      return <div>loading pets...</div>;
+    }
+
     return (
       <div className="search">
         {this.state.pets.map(pet => {

@@ -29,7 +29,7 @@ class Details extends React.Component {
         return response.json();
       })
       .then(data => {
-        fetch(`https://api.petfinder.com/v2/animals/this.props.id`, {
+        fetch(`https://api.petfinder.com/v2/animals/${this.props.id}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${data.access_token}`
@@ -39,19 +39,17 @@ class Details extends React.Component {
             return response.json();
           })
           .then(data => {
-            console.log("details");
-            console.log(data);
-            console.log(this.props.id);
-            const pet = data;
+            const pet = data.animal;
 
             this.setState({
               name: pet.name,
               location: `${pet.contact.address.city}, ${
                 pet.contact.address.state
-              }}`,
+              }`,
               description: pet.description,
               media: pet.photos,
               breed: pet.breeds.primary,
+              photo: pet.photos[0].large,
               loading: false
             });
           })
@@ -64,13 +62,14 @@ class Details extends React.Component {
 
   render() {
     if (this.state.loading) {
-      return <div>loading...</div>;
+      return <div>loading pet...</div>;
     }
-    const { breed, location, description } = this.state;
+    const { breed, location, description, photo } = this.state;
 
     return (
       <div className="details">
         <div>
+          <img src={photo} alt={name} />
           <h1>{name}</h1>
           <h2>
             {breed} - {location}
