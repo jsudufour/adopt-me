@@ -1,5 +1,6 @@
 import React from "react";
 import { navigate } from "@reach/router/lib/history";
+import Carousel from "./Carousel.js";
 
 class Details extends React.Component {
   state = {
@@ -60,12 +61,13 @@ class Details extends React.Component {
     if (this.state.loading) {
       return <div>loading pet...</div>;
     }
-    const { breed, location, description, photo } = this.state;
+    const { breed, location, description, photo, media } = this.state;
 
     return (
       <div className="details">
+        <Carousel media={media} />
         <div>
-          <img src={photo} alt={name} />
+          {/* <img src={photo} alt={name} /> */}
           <h1>{name}</h1>
           <h2>
             {breed} - {location}
