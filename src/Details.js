@@ -2,13 +2,9 @@ import React from "react";
 import { navigate } from "@reach/router/lib/history";
 
 class Details extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true
-    };
-  }
+  state = {
+    loading: true
+  };
 
   componentDidMount() {
     fetch(`https://api.petfinder.com/v2/oauth2/token`, {
@@ -20,8 +16,8 @@ class Details extends React.Component {
         Host: "api.petfinder.com"
       },
       body: JSON.stringify({
-        client_id: "",
-        client_secret: "",
+        client_id: "wwBdaD0eNIoLJBj2Xy1S4DRkB2kDrmrL7jcE96GTvuoIeKlFSM",
+        client_secret: "cdRnD4bu0JBxMMWBkOVXTCVGWtiUdZNODpVuWjiA",
         grant_type: "client_credentials"
       })
     })
