@@ -1,11 +1,15 @@
 import React from "react";
 import { navigate } from "@reach/router/lib/history";
 import Carousel from "./Carousel.js";
+import Modal from "./Modal";
 
 class Details extends React.Component {
   state = {
-    loading: true
+    loading: true,
+    showModal: false
   };
+
+  toggleModal = () => this.setState({ showModal: !this.state.showModal });
 
   componentDidMount() {
     fetch(`https://api.petfinder.com/v2/oauth2/token`, {
@@ -65,7 +69,7 @@ class Details extends React.Component {
     if (this.state.loading) {
       return <div>loading pet...</div>;
     }
-    const { breed, location, description, photo, media } = this.state;
+    const { breed, name, location, description, media, showModal } = this.state;
 
     return (
       <div className="details">
@@ -76,7 +80,17 @@ class Details extends React.Component {
           <h2>
             {breed} - {location}
           </h2>
+          <button onClick={this.toggleModal}>Adopt {name}</button>
           <p>{description}</p>
+          {showModal ? (
+            <Modal>
+              <h1>Would you like to adopt {name}?</h1>
+              <div className="buttons">
+                <div onClick={this.toggleModal}>Yes</div>
+                <div onClick={this.toggleModal}>No</div>
+              </div>
+            </Modal>
+          ) : null}
         </div>
       </div>
     );
