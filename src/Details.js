@@ -54,6 +54,10 @@ class Details extends React.Component {
             this.setState({ error: err });
             navigate("/");
           });
+      })
+      .catch(err => {
+        this.setState({ error: err });
+        navigate("/");
       });
   }
 

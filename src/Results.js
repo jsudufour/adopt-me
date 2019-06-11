@@ -1,5 +1,6 @@
 import React from "react";
 import Pet from "./Pet";
+import { navigate } from "@reach/router/lib/history";
 
 const petFinder = {
   key: process.env.API_KEY,
@@ -64,6 +65,10 @@ class Results extends React.Component {
               loading: false // shallow merge - won't overwrite existing flat data
             });
           });
+      })
+      .catch(err => {
+        this.setState({ error: err });
+        navigate("/");
       });
   }
 
